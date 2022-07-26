@@ -1,12 +1,16 @@
 body {
     margin: 0px;
     padding: 0px;
-    text-align: center;
     font-family: sans-serif;
 }
 
 h1 {
     color: blue;
+    text-align: center;
+}
+
+input {
+    margin-left: 10vw;
 }
 
 input.text {
@@ -18,5 +22,8 @@ input.text {
 }
 
 input.button {
-    width: 100px;
+    display: block;
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 20px;
 }
