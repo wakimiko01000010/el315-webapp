@@ -15,6 +15,7 @@ def index():
 def determiner():
     return render_template("determiner.html")
 
+@app.route("/result", methods=["GET"])
 def receive_get():
     text = request.args["english_text"]
     if len(text) == 0:
