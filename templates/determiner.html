@@ -3,14 +3,27 @@
 <html>
     <head>
         <title> Determiner detector</title>
-        <link rel="stylesheet" href="../static/css/determiner.css">
     </head>
     <body>
-        <h1>Determiner detector</h1>
-        <form method="get" action="result">
-            <input type="text" class="text" placeholder="Enter English sentence." name="english_text">
-            <input type="submit" class="button" value="article determination">
-        </form>
+        <div id="container">
+            <div id="title">
+                <h1>Determiner detector</h1>
+            </div>
+
+            <div id="analyze">
+                <form id="form" method="post" action="/result" name="formStr">
+                    <input type="text" class="input" placeholder="Enter English sentence." name="english_text">
+                    <input type="submit" class="submit" value="article determination">
+                </form>
+            </div>
+
+            {% if result|length > 0 %}
+            <div id="result">
+                <h2>result</h2>
+                <p>{{engStr}}</p>
+            </div>
+            {% endif %}
+        </div>
     </body>
 </html>
 

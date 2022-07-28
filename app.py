@@ -1,19 +1,39 @@
-from flask import Flask, render_template
-from flask import request
+from flask import *
+from flask_socketio import SocketIO
+import green
 
 app = Flask(__name__)
+socketio = SocketIO(app, async_mode=None)
+
+result = []
 
 @app.route("/")
 def determiner():
-    return render_template("determiner.html")
+    return render_template("determiner.html", result=result)
 
-@app.route("/result", methods=["GET"])
-def receive_get():
-    text = request.args["english_text"]
-    if len(text) == 0:
-        return "no text"
-    else:
-        return text
+@app.route("/result", methods=["GET", "POST"])
+def get_form():
+    global engStr
+    global result
+    result = []
+
+    try:
+        engStr = request.form["english_text"]
+    except:
+        engStr = ""
+
+    result = green.article_identifier(engStr)
+
+    sub = 0
+    print(result)
+
+    while '_' in engStr:
+        
+        index = engStr.find('_')
+        engStr = engStr[:index] + str(result[sub][1]) + engStr[index+1:]
+        sub += 1
+
+    return render_template("determiner.html", result=result, engStr=engStr)
 
 if __name__ == "__main__":
     app.run(debug=True)

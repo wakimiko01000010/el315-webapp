@@ -2,6 +2,9 @@ import nltk
 from nltk.corpus import cmudict
 from nltk.tag.stanford import StanfordNERTagger
 
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+
 PATH_TO_JAR='./static/stanford-ner-2020-11-17/stanford-ner.jar'
 PATH_TO_MODEL = './static/stanford-ner-2020-11-17/classifiers/english.all.3class.distsim.crf.ser.gz'
 
@@ -26,13 +29,13 @@ result = []
 def vowel(word):
     if word[1] == 'NNS':
         if word[0] in already:
-            return ("the")
+            return ("the",)
         else:
             already[word[0]] = True
             return (None)
     else:
         if word[0] in already:
-            return ("the")
+            return ("the",)
         else:
             already[word[0]] = True
             return ("an", "the")
@@ -40,13 +43,13 @@ def vowel(word):
 def consonant(word):
     if word[1] == 'NNS':
         if word[0] in already:
-            return ("the")
+            return ("the",)
         else:
             already[word[0]] = True
             return (None)
     else:
         if word[0] in already:
-            return ("the")
+            return ("the",)
         else:
             already[word[0]] = True
             return ("a", "the")
@@ -78,10 +81,10 @@ def article_identifier(engText):
         if word[1] in common:
             if word[0] in uncountable:
                 if word[0] in already:
-                    result.append((word[0], ("the")))
+                    result.append((word[0], ("the",)))
                 else:
                     already[word[0]] = True
-                    result.append((word[0], (None)))
+                    result.append((word[0], (None,)))
             else:
                 if word[0][0] in vowelLetter:
                     if not pronunciation_detect(word[0]):
@@ -98,5 +101,5 @@ def article_identifier(engText):
                 result.append((word[0], ("a", "the", None)))
             else:
                 result.append((word[0], ("the", None)))
-
+    print(result)
     return result
