@@ -3,3 +3,4 @@ Flask-SocketIO==5.2.0
 gunicorn==20.1.0
 nltk==3.4.5
 Jinja2==3.0.3
+spacy==3.4.1

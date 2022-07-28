@@ -7,12 +7,6 @@ from nltk.tag.stanford import StanfordNERTagger
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 nltk.download('cmudict')
-
-PATH_TO_JAR='./static/stanford-ner-2020-11-17/stanford-ner.jar'
-PATH_TO_MODEL = './static/stanford-ner-2020-11-17/classifiers/english.all.3class.distsim.crf.ser.gz'
-
-tagger = StanfordNERTagger(model_filename=PATH_TO_MODEL, path_to_jar=PATH_TO_JAR, encoding='utf-8')
-
 subprocess.run(["python3 -m spacy download en_core_web_sm"], shell=True)
 
 nlp = spacy.load('en_core_web_sm')
