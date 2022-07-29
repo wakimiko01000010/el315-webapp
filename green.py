@@ -66,8 +66,6 @@ def article_identifier(engText):
     # correctly identify the noun.
     engText = engText.replace('_', 'a')
     print(engText)
-    # Insert the results of the decision.
-    result = []
     # tokenize
     morph = nltk.word_tokenize(engText)
     # get pos
@@ -101,8 +99,6 @@ def article_identifier(engText):
                 return (word[0], ("a", "the", None))
             else:
                 return (word[0], ("the", None))
-    print(result)
-    return result
 
 def str_split(text):
     text_list = text.split('.')
