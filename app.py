@@ -29,7 +29,7 @@ def get_form():
     while '_' in engStr:
         
         index = engStr.find('_')
-        engStr = engStr[:index] + str(result[sub][1].strip("(,)")) + engStr[index+1:]
+        engStr = engStr[:index] + str(result[sub][1]).strip("(,)") + engStr[index+1:]
         sub += 1
 
     return render_template("determiner.html", result=result, engStr=engStr)
