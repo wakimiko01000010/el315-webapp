@@ -1,3 +1,4 @@
+import re
 import nltk
 from nltk.corpus import cmudict
 from nltk.tag.stanford import StanfordNERTagger
@@ -101,7 +102,7 @@ def article_identifier(engText):
                 return (word[0], ("the", None))
 
 def run(text):
-    text_list = text.split('.')
+    text_list = split('[.!?]', text)
     result = []
 
     for i in range(len(text_list)-1):
