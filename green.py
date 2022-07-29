@@ -102,7 +102,7 @@ def article_identifier(engText):
                 return (word[0], ("the", None))
 
 def run(text):
-    text_list = split('[.!?]', text)
+    text_list = re.split('[.!?]', text)
     result = []
 
     for i in range(len(text_list)-1):
