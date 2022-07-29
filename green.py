@@ -21,10 +21,8 @@ common = ['NN', 'NNS']
 vowelLetter = ['a', 'i', 'u', 'e', 'o']
 # pronunciation dictionary
 pron = cmudict.dict()
-# To check if it has already been out once
-already = dict()
 
-def vowel(word):
+def vowel(word, already):
     if word[1] == 'NNS':
         if word[0] in already:
             return ("the",)
@@ -38,7 +36,7 @@ def vowel(word):
             already[word[0]] = True
             return ("an", "the")
 
-def consonant(word):
+def consonant(word, already):
     if word[1] == 'NNS':
         if word[0] in already:
             return ("the",)
@@ -66,6 +64,8 @@ def article_identifier(engText):
     # correctly identify the noun.
     engText = engText.replace('_', 'a')
     print(engText)
+    # To check if it has already been out once
+    already = dict()
     # tokenize
     morph = nltk.word_tokenize(engText)
     # get pos
@@ -86,14 +86,14 @@ def article_identifier(engText):
             else:
                 if word[0][0] in vowelLetter:
                     if not pronunciation_detect(word[0]):
-                        return (word[0], consonant(word))
+                        return (word[0], consonant(word, already))
                     else:
-                        return (word[0], vowel(word))
+                        return (word[0], vowel(word, already))
                 else:
                     if pronunciation_detect(word[0]):
-                        return (word[0], vowel(word))
+                        return (word[0], vowel(word, already))
                     else:
-                        return (word[0], consonant(word))
+                        return (word[0], consonant(word, already))
         else:
             if word[0] in people:# word is people name
                 return (word[0], ("a", "the", None))
