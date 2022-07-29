@@ -23,8 +23,6 @@ vowelLetter = ['a', 'i', 'u', 'e', 'o']
 pron = cmudict.dict()
 # To check if it has already been out once
 already = dict()
-# Insert the results of the decision.
-result = []
 
 def vowel(word):
     if word[1] == 'NNS':
@@ -68,6 +66,8 @@ def article_identifier(engText):
     # correctly identify the noun.
     engText = engText.replace('_', 'a')
     print(engText)
+    # Insert the results of the decision.
+    result = []
     # tokenize
     morph = nltk.word_tokenize(engText)
     # get pos
@@ -81,25 +81,34 @@ def article_identifier(engText):
         if word[1] in common:
             if word[0] in uncountable:
                 if word[0] in already:
-                    result.append((word[0], ("the",)))
+                    return (word[0], ("the",))
                 else:
                     already[word[0]] = True
-                    result.append((word[0], (None,)))
+                    return (word[0], (None,))
             else:
                 if word[0][0] in vowelLetter:
                     if not pronunciation_detect(word[0]):
-                        result.append((word[0], consonant(word)))
+                        return (word[0], consonant(word))
                     else:
-                        result.append((word[0], vowel(word)))
+                        return (word[0], vowel(word))
                 else:
                     if pronunciation_detect(word[0]):
-                        result.append((word[0], vowel(word)))
+                        return (word[0], vowel(word))
                     else:
-                        result.append((word[0], consonant(word)))
+                        return (word[0], consonant(word))
         else:
             if word[0] in people:# word is people name
-                result.append((word[0], ("a", "the", None)))
+                return (word[0], ("a", "the", None))
             else:
-                result.append((word[0], ("the", None)))
+                return (word[0], ("the", None))
     print(result)
+    return result
+
+def str_split(text):
+    text_list = text.split('.')
+    result = []
+
+    for i in range(len(text_list)-1):
+        result.append(text_list[i].strip() + '.')
+
     return result

@@ -22,7 +22,10 @@ def get_form():
     except:
         engStr = ""
 
-    result = green.article_identifier(engStr)
+    split_text = green.str_split(engStr)
+
+    for i in split_text:
+        result.append(green.article_identifier(i))
 
     sub = 0
     print(result)
