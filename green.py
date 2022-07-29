@@ -21,8 +21,10 @@ common = ['NN', 'NNS']
 vowelLetter = ['a', 'i', 'u', 'e', 'o']
 # pronunciation dictionary
 pron = cmudict.dict()
+# To check if it has already been out once
+already = dict()
 
-def vowel(word, already):
+def vowel(word):
     if word[1] == 'NNS':
         if word[0] in already:
             return ("the",)
@@ -36,7 +38,7 @@ def vowel(word, already):
             already[word[0]] = True
             return ("an", "the")
 
-def consonant(word, already):
+def consonant(word):
     if word[1] == 'NNS':
         if word[0] in already:
             return ("the",)
@@ -64,8 +66,6 @@ def article_identifier(engText):
     # correctly identify the noun.
     engText = engText.replace('_', 'a')
     print(engText)
-    # To check if it has already been out once
-    already = dict()
     # tokenize
     morph = nltk.word_tokenize(engText)
     # get pos
@@ -86,25 +86,27 @@ def article_identifier(engText):
             else:
                 if word[0][0] in vowelLetter:
                     if not pronunciation_detect(word[0]):
-                        return (word[0], consonant(word, already))
+                        return (word[0], consonant(word))
                     else:
-                        return (word[0], vowel(word, already))
+                        return (word[0], vowel(word))
                 else:
                     if pronunciation_detect(word[0]):
-                        return (word[0], vowel(word, already))
+                        return (word[0], vowel(word))
                     else:
-                        return (word[0], consonant(word, already))
+                        return (word[0], consonant(word))
         else:
             if word[0] in people:# word is people name
                 return (word[0], ("a", "the", None))
             else:
                 return (word[0], ("the", None))
 
-def str_split(text):
+def run(text):
     text_list = text.split('.')
     result = []
 
     for i in range(len(text_list)-1):
-        result.append(text_list[i].strip() + '.')
+        result.append(article_identifier(text_list[i].strip() + '.'))
+
+    already.clear()
 
     return result

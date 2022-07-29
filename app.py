@@ -15,17 +15,13 @@ def determiner():
 def get_form():
     global engStr
     global result
-    result = []
 
     try:
         engStr = request.form["english_text"]
     except:
         engStr = ""
 
-    split_text = green.str_split(engStr)
-
-    for i in split_text:
-        result.append(green.article_identifier(i))
+    result = green.run(engStr)
 
     sub = 0
     print(result)
