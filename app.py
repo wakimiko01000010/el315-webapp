@@ -14,7 +14,6 @@ def determiner():
 @app.route("/result", methods=["GET", "POST"])
 def get_form():
     global engStr
-    global result
 
     try:
         engStr = request.form["english_text"]
@@ -25,6 +24,9 @@ def get_form():
 
     sub = 0
     print(result)
+
+    if len(result) == 0:
+        return render_template("determiner.html", result=['error'], engStr="ERROR: The English sentence is wrong.")
 
     while '_' in engStr:
         
