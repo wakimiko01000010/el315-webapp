@@ -105,12 +105,12 @@ def article_identifier(engText):
                 if word[1] == 'JN' or word[1] == 'RJN':
                     if pronunciation_detect(modifier[0]):
                         result.append((word[0], vowel(modifier[0])))
+                        modifier.pop(0)
                         continue
                     else:
                         result.append((word[0], consonant(modifier[0])))
+                        modifier.pop(0)
                         continue
-
-                    modifier.pop(0)
 
                 if word[0][0] in vowelLetter:
                     if not pronunciation_detect(word[0]):
@@ -138,6 +138,8 @@ def run(text):
         result.extend(article_identifier(text_list[i].strip() + '.'))
 
     already.clear()
+
+    print(result)
 
     return result
 
