@@ -80,13 +80,13 @@ def article_identifier(engText):
             pos.insert(i, (word[0], 'RJN'))
             modifier.append(pos[i-2][0])
             continue
- 
+
         if pos[i][1] in common and pos[i-1][1] == 'JJ':
             word = pos.pop(i)
             pos.insert(i, (word[0], 'JN'))
             modifier.append(pos[i-1][0])
             continue
-   
+
     print(pos)
     # get people name
     people = [i[0] for i in tagger.tag(morph) if i[1] == 'PERSON']

@@ -29,7 +29,7 @@ def get_form():
         return render_template("determiner.html", result=['error'], engStr="ERROR: The English sentence is wrong.")
 
     while '_' in engStr:
-        
+
         index = engStr.find('_')
         engStr = engStr[:index] + str(result[sub][1]) + engStr[index+1:]
         sub += 1
