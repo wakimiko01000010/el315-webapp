@@ -24,8 +24,10 @@ vowelLetter = ['a', 'i', 'u', 'e', 'o']
 pron = cmudict.dict()
 # To check if it has already been out once
 already = dict()
-
+# Record adjectives and adverbs.
 modifier = []
+# Record the position of "_".
+sub = []
 
 def vowel(word):
     if word[1] == 'NNS':
@@ -64,16 +66,24 @@ def pronunciation_detect(word):
 def article_identifier(engText):
 
     result = []
+
+    # tokenize
+    morph = nltk.word_tokenize(engText)
+
     # If there are any blanks left in the sentence,
     # the POS classification will not be correct,
     # so fill in the blanks with a random article to
     # correctly identify the noun.
-    engText = engText.replace('_', 'a')
-    # tokenize
-    morph = nltk.word_tokenize(engText)
+    for i in range(len(morph)):
+        if morph[i] == '_':
+            morph[i] = 'a'
+            sub.append(i)
+
+    print(morph)
     # get pos
     pos = nltk.pos_tag(morph)
 
+    # Check for adjectives and adverbs before nouns
     for i in range(len(pos)):
         if pos[i][1] in common and pos[i-1][1] == 'JJ' and pos[i-2][1] == 'RB':
             word = pos.pop(i)
@@ -142,4 +152,3 @@ def run(text):
     print(result)
 
     return result
-
