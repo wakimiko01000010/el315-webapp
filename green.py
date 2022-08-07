@@ -101,6 +101,8 @@ def article_identifier(engText):
     # get people name
     people = [i[0] for i in tagger.tag(morph) if i[1] == 'PERSON']
     # get noun
+
+    # TODO: '_'後の名詞だけ取得するように変更する
     nouns = [i for i in pos if i[1] in typeOfNoun]
 
     for word in nouns:
