@@ -28,6 +28,8 @@ already = dict()
 modifier = []
 # Record the position of "_".
 sub = []
+# Record nouns.
+nouns = []
 
 def vowel(word):
     if word[1] == 'NNS':
@@ -102,8 +104,21 @@ def article_identifier(engText):
     people = [i[0] for i in tagger.tag(morph) if i[1] == 'PERSON']
     # get noun
 
+    # If there were no '_', then nothing.
+    if len(sub) == 0:
+        return
+
+    j = 0
+
     # TODO: '_'後の名詞だけ取得するように変更する
-    nouns = [i for i in pos if i[1] in typeOfNoun]
+    for i in range(len(pos)):
+        if pos[i][1] in typeOfNoun:
+            if i > sub[j]:
+                nouns.append(pos[i])
+                j += 1
+        if j == len(sub):
+            break
+# nouns = [i for i in pos if i[1] in typeOfNoun]
 
     for word in nouns:
         if word[1] in common:
