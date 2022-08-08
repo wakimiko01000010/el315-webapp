@@ -110,40 +110,48 @@ def article_identifier(engText):
 
     nouns = [i for i in pos if i[1] in typeOfNoun]
 
-    for word in nouns:
-        if word[1] in common:
-            if word[0] in uncountable:
-                if word[0] in already:
-                    result.append((word[0], ("the",)))
+    for i in range(len(nouns)):
+        if nouns[i][1] in common:
+            if nouns[i][0] in uncountable:
+                if nouns[i][0] in already:
+                    result.append((nouns[i][0], ("the",), i))
                 else:
-                    already[word[0]] = True
-                    result.append((word[0], (None,)))
+                    already[nouns[i][0]] = True
+                    result.append((nouns[i][0], (None,), i))
             else:
-                if word[1] == 'JN' or word[1] == 'RJN':
+                if nouns[i][1] == 'JN' or nouns[i][1] == 'RJN':
                     if pronunciation_detect(modifier[0]):
-                        result.append((word[0], vowel(modifier[0])))
+                        result.append((nouns[i][0], vowel(modifier[0]), i))
                         modifier.pop(0)
                         continue
                     else:
-                        result.append((word[0], consonant(modifier[0])))
+                        result.append((nouns[i][0], consonant(modifier[0]), i))
                         modifier.pop(0)
                         continue
 
-                if word[0][0] in vowelLetter:
-                    if not pronunciation_detect(word[0]):
-                        result.append((word[0], consonant(word)))
+                if nouns[i][0][0] in vowelLetter:
+                    if not pronunciation_detect(nouns[i][0]):
+                        result.append((nouns[i][0], consonant(nouns[i]), i))
                     else:
-                        result.append((word[0], vowel(word)))
+                        result.append((nouns[i][0], vowel(nouns[i]), i))
                 else:
-                    if pronunciation_detect(word[0]):
-                        result.append((word[0], vowel(word)))
+                    if pronunciation_detect(nouns[i][0]):
+                        result.append((nouns[i][0], vowel(nouns[i]), i))
                     else:
-                        result.append((word[0], consonant(word)))
+                        result.append((nouns[i][0], consonant(nouns[i]), i))
         else:
-            if word[0] in people:# word is people name
-                result.append((word[0], ("a", "the", None)))
+            if nouns[i][0] in people:
+                result.append((nouns[i][0], ("a", "the", None), i))
             else:
-                result.append((word[0], ("the", None)))
+                result.append((nouns[i][0], ("the", None), i))
+
+    j = 0
+    for i in range(len(result)):
+        if result[i][2] < sub[j]:
+            result.pop(i)
+            j += 1
+        if j == len(sub):
+            break
 
     return result
 
