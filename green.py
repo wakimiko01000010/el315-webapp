@@ -145,6 +145,7 @@ def article_identifier(engText):
             else:
                 result.append((nouns[i][0], ("the", None), i))
 
+    print(result)
     j = 0
     for i in range(len(result)):
         if result[i][2] < sub[j]:
