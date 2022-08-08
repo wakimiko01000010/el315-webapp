@@ -5,11 +5,9 @@ import green
 app = Flask(__name__)
 socketio = SocketIO(app, async_mode=None)
 
-result = []
-
 @app.route("/")
 def determiner():
-    return render_template("determiner.html", result=result)
+    return render_template("determiner.html", result=[])
 
 @app.route("/result", methods=["GET", "POST"])
 def get_form():
@@ -21,9 +19,9 @@ def get_form():
         engStr = ""
 
     result = green.run(engStr)
+    print(result)
 
     sub = 0
-    print(result)
 
     if len(result) == 0:
         return render_template("determiner.html", result=['error'], engStr="ERROR: The English sentence is wrong.")

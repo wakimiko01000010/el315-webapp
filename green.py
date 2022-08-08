@@ -81,7 +81,6 @@ def article_identifier(engText):
             morph[i] = 'a'
             sub.append(i)
 
-    print(morph)
     # get pos
     pos = nltk.pos_tag(morph)
 
@@ -99,7 +98,6 @@ def article_identifier(engText):
             modifier.append(pos[i-1][0])
             continue
 
-    print(pos)
     # get people name
     people = [i[0] for i in tagger.tag(morph) if i[1] == 'PERSON']
     # get noun
@@ -108,44 +106,48 @@ def article_identifier(engText):
     if len(sub) == 0:
         return result
 
-    nouns = [i for i in pos if i[1] in typeOfNoun]
+    #nouns = [i for i in pos if i[1] in typeOfNoun]
 
-    for i in range(len(nouns)):
-        if nouns[i][1] in common:
-            if nouns[i][0] in uncountable:
-                if nouns[i][0] in already:
-                    result.append((nouns[i][0], ("the",), i))
+    for i in range(len(pos)):
+        if pos[i][1] in typeOfNoun:
+            nouns.append((pos[i][0], pos[i][1], i))
+
+    for word in nouns:
+        if word[1] in common:
+            if word[0] in uncountable:
+                if word[0] in already:
+                    result.append((word[0], ("the",), word[2]))
                 else:
-                    already[nouns[i][0]] = True
-                    result.append((nouns[i][0], (None,), i))
+                    already[word[0]] = True
+                    result.append((word[0], (None,), word[2]))
             else:
-                if nouns[i][1] == 'JN' or nouns[i][1] == 'RJN':
+                if word[1] == 'JN' or word[1] == 'RJN':
                     if pronunciation_detect(modifier[0]):
-                        result.append((nouns[i][0], vowel(modifier[0]), i))
+                        result.append((word[0], vowel(modifier[0]), word[2]))
                         modifier.pop(0)
                         continue
                     else:
-                        result.append((nouns[i][0], consonant(modifier[0]), i))
+                        result.append((word[0], consonant(modifier[0]), word[2]))
                         modifier.pop(0)
                         continue
 
-                if nouns[i][0][0] in vowelLetter:
-                    if not pronunciation_detect(nouns[i][0]):
-                        result.append((nouns[i][0], consonant(nouns[i]), i))
+                if word[0][0] in vowelLetter:
+                    if not pronunciation_detect(word[0]):
+                        result.append((word[0], consonant(word), word[2]))
                     else:
-                        result.append((nouns[i][0], vowel(nouns[i]), i))
+                        result.append((word[0], vowel(word), word[2]))
                 else:
-                    if pronunciation_detect(nouns[i][0]):
-                        result.append((nouns[i][0], vowel(nouns[i]), i))
+                    if pronunciation_detect(word[0]):
+                        result.append((word[0], vowel(word), word[2]))
                     else:
-                        result.append((nouns[i][0], consonant(nouns[i]), i))
+                        result.append((word[0], consonant(word), word[2]))
         else:
-            if nouns[i][0] in people:
-                result.append((nouns[i][0], ("a", "the", None), i))
+            if word[0] in people:
+                result.append((word[0], ("a", "the", None), word[2]))
             else:
-                result.append((nouns[i][0], ("the", None), i))
+                result.append((word[0], ("the", None), word[2]))
 
-    print(result)
+
     j = 0
     for i in range(len(result)):
         if result[i][2] < sub[j]:
@@ -162,9 +164,11 @@ def run(text):
 
     for i in range(len(text_list)-1):
         result.extend(article_identifier(text_list[i].strip() + '.'))
+        modifier.clear()
+        sub.clear()
+        nouns.clear()
+
 
     already.clear()
-
-    print(result)
 
     return result
