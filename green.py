@@ -106,19 +106,9 @@ def article_identifier(engText):
 
     # If there were no '_', then nothing.
     if len(sub) == 0:
-        return
+        return result
 
-    j = 0
-
-    # TODO: '_'後の名詞だけ取得するように変更する
-    for i in range(len(pos)):
-        if pos[i][1] in typeOfNoun:
-            if i > sub[j]:
-                nouns.append(pos[i])
-                j += 1
-        if j == len(sub):
-            break
-# nouns = [i for i in pos if i[1] in typeOfNoun]
+    nouns = [i for i in pos if i[1] in typeOfNoun]
 
     for word in nouns:
         if word[1] in common:
