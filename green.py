@@ -168,7 +168,6 @@ def run(text):
         sub.clear()
         nouns.clear()
 
-
     already.clear()
 
     return result

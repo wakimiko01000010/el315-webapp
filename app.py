@@ -19,7 +19,6 @@ def get_form():
         engStr = ""
 
     result = green.run(engStr)
-    print(result)
 
     sub = 0
 
@@ -31,6 +30,8 @@ def get_form():
         index = engStr.find('_')
         engStr = engStr[:index] + str(result[sub][1]) + engStr[index+1:]
         sub += 1
+
+        print(engStr)
 
     return render_template("determiner.html", result=result, engStr=engStr)
 
