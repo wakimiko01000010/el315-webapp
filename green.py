@@ -82,6 +82,10 @@ def article_identifier(engText):
             morph[i] = 'a'
             sub.append(i)
 
+    # If there were no '_', then nothing.
+    if len(sub) == 0:
+        return result
+
     # get pos
     pos = nltk.pos_tag(morph)
 
@@ -103,16 +107,11 @@ def article_identifier(engText):
     people = [i[0] for i in tagger.tag(morph) if i[1] == 'PERSON']
     # get noun
 
-    # If there were no '_', then nothing.
-    if len(sub) == 0:
-        return result
-
     for i in range(len(pos)):
         if pos[i][1] in typeOfNoun:
             nouns.append((pos[i][0], pos[i][1], i))
 
     for word in nouns:
-        print(word)
         if word[1] in common:
             if word[0] in uncountable:
                 if word[0] in already:
@@ -130,17 +129,12 @@ def article_identifier(engText):
                         result.append((word[0], consonant(modifier[0]), word[2]))
                         modifier.pop(0)
                         continue
-
-                if word[0][0] in vowelLetter:
-                    if not pronunciation_detect(word[0]):
-                        result.append((word[0], consonant(word), word[2]))
-                    else:
-                        result.append((word[0], vowel(word), word[2]))
                 else:
                     if pronunciation_detect(word[0]):
                         result.append((word[0], vowel(word), word[2]))
                     else:
                         result.append((word[0], consonant(word), word[2]))
+
         else:
             if word[0] in people:
                 result.append((word[0], ("a", "the", None), word[2]))
