@@ -3,9 +3,9 @@ import nltk
 from nltk.corpus import cmudict
 from nltk.tag.stanford import StanfordNERTagger
 
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('cmudict')
+#nltk.download('punkt')
+#nltk.download('averaged_perceptron_tagger')
+#nltk.download('cmudict')
 
 PATH_TO_JAR='./static/stanford-ner-2020-11-17/stanford-ner.jar'
 PATH_TO_MODEL = './static/stanford-ner-2020-11-17/classifiers/english.all.3class.distsim.crf.ser.gz'
