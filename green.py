@@ -66,6 +66,10 @@ def article_identifier(engText):
 
     result = []
 
+    modifier.clear()
+    sub.clear()
+    nouns.clear()
+
     # tokenize
     morph = nltk.word_tokenize(engText)
 
@@ -160,9 +164,6 @@ def run(text):
 
     for i in range(len(text_list)-1):
         result.extend(article_identifier(text_list[i].strip() + '.'))
-        modifier.clear()
-        sub.clear()
-        nouns.clear()
 
     already.clear()
 
