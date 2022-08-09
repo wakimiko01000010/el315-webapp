@@ -106,8 +106,6 @@ def article_identifier(engText):
     if len(sub) == 0:
         return result
 
-    #nouns = [i for i in pos if i[1] in typeOfNoun]
-
     for i in range(len(pos)):
         if pos[i][1] in typeOfNoun:
             nouns.append((pos[i][0], pos[i][1], i))
